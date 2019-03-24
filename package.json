@@ -1,0 +1,33 @@
+{
+  "name": "curso-node-tdd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "start-watch": "nodemon src/server.js",
+    "test": "jest",
+    "test-watch": "jest --watch --verbose=true",
+    "lint": "eslint src/** test/** --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/elen_salustiano/curso-node-tdd.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/elen_salustiano/curso-node-tdd#readme",
+  "devDependencies": {
+    "eslint": "^5.15.2",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "jest": "23.6.0",
+    "supertest": "3.3.0"
+  },
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "consign": "0.1.6",
+    "express": "4.16.4"
+  }
+}
