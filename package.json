@@ -8,7 +8,8 @@
     "start-watch": "nodemon src/server.js",
     "test": "jest",
     "test-watch": "jest --watch --verbose=true",
-    "lint": "eslint src/** test/** --fix"
+    "lint": "eslint src/** test/** --fix",
+    "migrate": "node_modules/.bin/knex migrate:latest --env test"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,9 @@
   "dependencies": {
     "body-parser": "1.18.3",
     "consign": "0.1.6",
-    "express": "4.16.4"
+    "express": "4.16.4",
+    "knex": "0.15.2",
+    "knex-logger": "^0.1.0",
+    "pg": "7.7.1"
   }
 }
