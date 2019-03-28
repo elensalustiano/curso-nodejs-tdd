@@ -23,33 +23,37 @@ test('Should register a new user', async () => {
 test('Should not register a new user without name', async () => {
   const userCopy = { ...user };
   delete userCopy.name;
-  const { status, body } = await request(app).post('/users').send(userCopy);
+  const { status, body: { message, type } } = await request(app).post('/users').send(userCopy);
 
   expect(status).toBe(400);
-  expect(body).toBe(`Nome ${app.constant.messages.requiredField}`);
+  expect(message).toBe(`Nome ${app.constant.messages.requiredField}`);
+  expect(type).toBe(app.constant.utils.validationError);
 });
 
 test('Should not register a new user without email', async () => {
   const userCopy = { ...user };
   delete userCopy.email;
-  const { status, body } = await request(app).post('/users').send(userCopy);
+  const { status, body: { message, type } } = await request(app).post('/users').send(userCopy);
 
   expect(status).toBe(400);
-  expect(body).toBe(`Email ${app.constant.messages.requiredField}`);
+  expect(message).toBe(`Email ${app.constant.messages.requiredField}`);
+  expect(type).toBe(app.constant.utils.validationError);
 });
 
 test('Should not register a new user without password', async () => {
   const userCopy = { ...user };
   delete userCopy.pass;
-  const { status, body } = await request(app).post('/users').send(userCopy);
+  const { status, body: { message, type } } = await request(app).post('/users').send(userCopy);
 
   expect(status).toBe(400);
-  expect(body).toBe(`Senha ${app.constant.messages.requiredField}`);
+  expect(message).toBe(`Senha ${app.constant.messages.requiredField}`);
+  expect(type).toBe(app.constant.utils.validationError);
 });
 
 test('Should not register a new user with duplicate email', async () => {
-  const { status, body } = await request(app).post('/users').send(user);
+  const { status, body: { message, type } } = await request(app).post('/users').send(user);
 
   expect(status).toBe(400);
-  expect(body).toBe(app.constant.messages.duplicateEmail);
+  expect(message).toBe(app.constant.messages.duplicateEmail);
+  expect(type).toBe(app.constant.utils.validationError);
 });

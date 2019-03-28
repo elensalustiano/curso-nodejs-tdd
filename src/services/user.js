@@ -1,34 +1,21 @@
+const ValidationError = require('../errors/ValidationError');
+
 module.exports = (app) => {
-  const find = (filter = {}) => app.db('users').where(filter).select();
+  const db = 'users';
+
+  const find = (filter = {}) => app.db(db).where(filter).select();
 
   const create = async (user) => {
-    const error = {
-      message: app.constant.messages.requiredField,
-      status: 400
-    };
-
-    if (!user.name) {
-      error.message = `Nome ${error.message}`;
-      throw error;
-    }
-
-    if (!user.email) {
-      error.message = `Email ${error.message}`;
-      throw error;
-    }
-
-    if (!user.pass) {
-      error.message = `Senha ${error.message}`;
-      throw error;
-    }
+    if (!user.name) throw new ValidationError(`Nome ${app.constant.messages.requiredField}`);
+    if (!user.email) throw new ValidationError(`Email ${app.constant.messages.requiredField}`);
+    if (!user.pass) throw new ValidationError(`Senha ${app.constant.messages.requiredField}`);
 
     const result = await find({ email: user.email });
     if (result && result.length > 0) {
-      error.message = app.constant.messages.duplicateEmail;
-      throw error;
+      throw new ValidationError(app.constant.messages.duplicateEmail);
     }
 
-    return app.db('users').insert(user, '*');
+    return app.db(db).insert(user, '*');
   };
 
   return { find, create };
