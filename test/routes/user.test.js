@@ -18,6 +18,18 @@ test('Should register a new user', async () => {
 
   expect(status).toBe(201);
   expect(body.name).toBe(user.name);
+  expect(body).not.toHaveProperty('pass');
+});
+
+test('Should register a new user with password encryption', async () => {
+  const userCopy = { ...user };
+  userCopy.email = `${Date.now()}@gmail.com`;
+  const { status, body: { id } } = await request(app).post('/users').send(userCopy);
+
+  expect(status).toBe(201);
+  const { pass } = await app.services.user.findOne({ id });
+  expect(pass).not.toBeUndefined();
+  expect(pass).not.toBe(userCopy.pass);
 });
 
 test('Should not register a new user without name', async () => {

@@ -1,8 +1,8 @@
 
 module.exports = (app) => {
-  const find = async (req, res, next) => {
+  const findAll = async (req, res, next) => {
     try {
-      const result = await app.services.user.find();
+      const result = await app.services.user.findAll();
       res.status(200).json(result);
     } catch (error) {
       next(error);
@@ -18,5 +18,5 @@ module.exports = (app) => {
     }
   };
 
-  return { find, create };
+  return { findAll, create };
 };
