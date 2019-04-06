@@ -1,3 +1,4 @@
 module.exports = {
-  validationError: 'ValidationError'
+  validationError: 'ValidationError',
+  jwtSecret: 'Segredo!'
 };

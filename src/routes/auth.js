@@ -1,16 +1,17 @@
 const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt');
-
-const secret = 'Segredo!';
+const ValidationError = require('../errors/ValidationError');
 
 module.exports = (app) => {
   const signin = async (req, res, next) => {
     try {
+      const secret = app.constant.utils.jwtSecret;
       const { email, pass } = req.body;
       const user = await app.services.user.findOne({ email });
 
-      // TODO Tratar senha incorreta
-      if (!bcrypt.compareSync(pass, user.pass)) return next();
+      if (!user || !bcrypt.compareSync(pass, user.pass)) {
+        throw new ValidationError(app.constant.messages.signinError);
+      }
 
       delete user.pass;
       const token = jwt.encode(user, secret);
